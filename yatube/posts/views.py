@@ -6,6 +6,7 @@ from .forms import PostForm
 
 OBJECTS_PER_PAGE = 10
 
+
 def paginator_creater(request, obj_list):
     paginator = Paginator(obj_list, OBJECTS_PER_PAGE)
     page_number = request.GET.get('page')
@@ -37,7 +38,7 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     detailed_post = get_object_or_404(Post, id=post_id)
-    post_list = detailed_post.author.posts.all() 
+    post_list = detailed_post.author.posts.all()
     amount_of_posts = post_list.count()
     context = {
         'detailed_post': detailed_post,
