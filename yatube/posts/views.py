@@ -49,7 +49,7 @@ def post_detail(request, post_id):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    post_list = group.all()
+    post_list = Post.objects.filter(group=group).all()
     page_obj = paginator_creater(request, post_list)
     context = {
         'group': group,
@@ -78,6 +78,9 @@ def post_edit(request, post_id):
     if post.author != request.user:
         return redirect('posts:post_detail', post_id)
     form = PostForm(request.POST or None, instance=post)
+    if form.is_valid():
+        post.save()
+        return redirect('posts:post_detail', post_id)
     context = {
         'form': form,
         'is_edit': True,
