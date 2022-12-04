@@ -28,12 +28,6 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         related_name='posts'
     )
-# # Post.objects.filter(author=me)
-
-# start_date = datetime.date(1890, 1, 1)
-# end_date = datetime.date(1895, 3, 31)
-# Post.objects.filter(text__contains='oops')
-# .filter(pub_date__range=(start_date, end_date))
 
     def __str__(self):
         return self.text

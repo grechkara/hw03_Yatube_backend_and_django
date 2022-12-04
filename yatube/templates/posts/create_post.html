@@ -21,63 +21,14 @@
         {% endif %}
       </div>
       <div class="card-body">
-        {% if form.errors %}
-          {% for field in form %}
-            {% for error in field.errors %}            
-              <div class="alert alert-danger">
-                {{ error|escape }}
-              </div>
-            {% endfor %}
-          {% endfor %}
-          {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-              {{ error|escape }}
-            </div>
-          {% endfor %}
-        {% endif %}
+        {% include 'includes/validator.html' %}
 
-        <form method="post"
-            {% if action_url %}
-              action="{% url action_url %}"
-            {% endif %}
-          >
-        {% comment "" %}
-        <form method="post" 
-        action="{% if is_edit %}
-          {% url 'post_edit' username=post.author.username post_id=post.id %}
-        {% else %}
-          {% url 'create_post' %}
-        {% endif %}"
-        >
-        {% endcomment %}
+        <form method="post" {% if action_url %} action="{% url action_url %}" {% endif %}>
 
         {% csrf_token %}
 
-        {% for field in form %}
-          <div class="form-group row my-3"
-            {% if field.field.required %} 
-              aria-required="true"
-            {% else %}
-              aria-required="false"
-            {% endif %}
-          >
-          <label for="{{ field.id_for_label }}"
-            class="col-md-4 col-form-label text-md-right">
-              {{ field.label }}
-              {% if field.field.required %}
-                <span class="required">*</span>
-              {% endif %}
-            </label>
-            <div>
-            {{ field|addclass:'form-control' }}
-              {% if field.help_text %}
-                <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
-                  {{ field.help_text|safe }}
-                </small>
-              {% endif %}
-            </div>
-          </div>
-        {% endfor %}
+        {% include 'includes/form_creator.html' %}
+
         <div class="d-flex justify-content-end">
           <button type="submit" class="btn btn-primary">
             {% if is_edit %}
